@@ -42,7 +42,8 @@ function products(data){
         productId.appendChild(article) 
         console.log(items)
     }
-};
+}; //A corriger pour enlever la partie html non formaté qui reste visible
+
  
 
 
