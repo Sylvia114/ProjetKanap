@@ -20,7 +20,7 @@ function products(data){
         const article = document.createElement("article")
 
         const productId = document.createElement("a")
-        productId.setAttribute("href", "./product.html?id"+data[i]._id)
+        productId.setAttribute("href", "./product.html?id="+data[i]._id)
 
         const productPicture = document.createElement("img")
         article.appendChild(productPicture)
