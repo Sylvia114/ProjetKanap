@@ -26,10 +26,10 @@ function products(data){
     const productDescription = document.getElementById("description");
     productDescription.innerHTML = data.description;
 
-    const productPicture = document.getElementsByClassName("item__img")
-    let pictureAttribut = "";
-    pictureAttribut = pictureAttribut +`<img src="${data.imageUrl}"alt ="${data.altTxt}"></img>`
-    productPicture[0].innerHTML = pictureAttribut;
+    const productPicture = document.querySelector(".item__img img")
+    productPicture.setAttribute("src", data.imageUrl) 
+    productPicture.setAttribute("alt", data.altTxt)
+    console.log(productPicture)
 
     const productPrice = document.getElementById("price");
     productPrice.innerHTML = data.price;
@@ -44,7 +44,10 @@ function products(data){
     };            
 }; 
 
+
 // Ajouter des produits dans le panier
+
+localStorage.getItem
   
  
 
