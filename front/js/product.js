@@ -5,7 +5,7 @@ var url = new URL(getUrl)
 var urlId = url.searchParams.get("id")
 console.log(urlId)
 
-fetch("http://localhost:3000/api/products/" + urlId)
+fetch("http://localhost:3000/api/products/"+urlId)
   .then(function (response) {
     return response.json();
   })
@@ -34,17 +34,15 @@ function products(data){
     const productPrice = document.getElementById("price");
     productPrice.innerHTML = data.price;
 
-
     const productColor = document.getElementById("colors");
     const colors = data.colors;
-    let colorsContent = " ";
-    colors.forEach(function(colors){
-    colorsContent = colorsContent + `<option value="${colors}">${colors}</option>`})
-    productColor.innerHTML = colorsContent
-    //A corriger pour que le message "sélectionnez" ne s'efface pas
-        
+    for (let i = 0; i < colors.length; i++){
+    const productContainer = document.createElement("option")
+    productContainer.setAttribute("value", colors[i])
+    productContainer.innerHTML = colors[i]
+    productColor.appendChild(productContainer)
+    };            
 }; 
-
 
 // Ajouter des produits dans le panier
   
