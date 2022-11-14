@@ -58,7 +58,6 @@ let productOptions = {
 
 let basketLocal = JSON.parse(localStorage.getItem("product"))
 
-
 if (basketLocal == null){
   let basketLocal = [];
   basketLocal.push(productOptions);
@@ -68,7 +67,7 @@ if (basketLocal == null){
   let i = 0;
     while (i < localStorage.length){
     i++;    {  
-    if (productOptions.id==urlId && productOptions.color==colors.value){
+    if (productOptions.id==urlId && productOptions.color==colors.value){ //Corriger les conditions pour que ce soit currentId==localStorageId et non pas currentId==currentId
       let localQuantity = basketLocal.quantity;
       localQuantity = parseInt(localQuantity) + parseInt(quantity.value);
       localStorage.setItem("product", JSON.stringify(basketLocal)); //Chercher comment push la nouvelle valeur quantité dans le local storage
