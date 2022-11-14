@@ -29,7 +29,6 @@ function products(data){
     const productPicture = document.querySelector(".item__img img")
     productPicture.setAttribute("src", data.imageUrl) 
     productPicture.setAttribute("alt", data.altTxt)
-    console.log(productPicture)
 
     const productPrice = document.getElementById("price");
     productPrice.innerHTML = data.price;
@@ -41,14 +40,22 @@ function products(data){
     productContainer.setAttribute("value", colors[i])
     productContainer.innerHTML = colors[i]
     productColor.appendChild(productContainer)
-    };            
+    }
+
 }; 
 
 
 // Ajouter des produits dans le panier
 
-localStorage.getItem
-  
- 
+const button = document.querySelector ("#addToCart")
+button.addEventListener("click", function() {
 
+let productOptions = {
+  productId : urlId,
+  productQuantity : document.getElementById('quantity').value,
+  productColor : document.getElementById('colors').value,
+}
 
+basketLocal = JSON.parse(localStorage.getItem("product"))
+
+});

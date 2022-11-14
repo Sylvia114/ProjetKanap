@@ -15,7 +15,6 @@ fetch("http://localhost:3000/api/products")
 })
 
 function products(data){
-
     for (let i = 0; i < data.length; i++) {
         const article = document.createElement("article")
 
@@ -42,7 +41,8 @@ function products(data){
         productId.appendChild(article) 
         console.log(items)
     }
-}; //A corriger pour enlever la partie html non formaté qui reste visible
+
+}; 
 
  
 
