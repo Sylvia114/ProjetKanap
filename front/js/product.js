@@ -51,11 +51,34 @@ const button = document.querySelector ("#addToCart")
 button.addEventListener("click", function() {
 
 let productOptions = {
-  productId : urlId,
-  productQuantity : document.getElementById('quantity').value,
-  productColor : document.getElementById('colors').value,
+  id : urlId,
+  quantity : document.querySelector("#quantity").value,
+  color : document.querySelector("#colors").value,
 }
 
-basketLocal = JSON.parse(localStorage.getItem("product"))
+let basketLocal = JSON.parse(localStorage.getItem("product"))
 
+
+if (basketLocal == null){
+  let basketLocal = [];
+  basketLocal.push(productOptions);
+  localStorage.setItem("product", JSON.stringify(basketLocal));
+  console.log(basketLocal)
+} else {
+  let i = 0;
+    while (i < localStorage.length){
+    i++;    {  
+    if (productOptions.id==urlId && productOptions.color==colors.value){
+      let localQuantity = basketLocal.quantity;
+      localQuantity = parseInt(localQuantity) + parseInt(quantity.value);
+      localStorage.setItem("product", JSON.stringify(basketLocal)); //Chercher comment push la nouvelle valeur quantité dans le local storage
+      console.log(localQuantity)
+    } else {
+        basketLocal.push(productOptions);
+        localStorage.setItem("product", JSON.stringify(basketLocal));
+    }
+  }
+
+  }
+}
 });
