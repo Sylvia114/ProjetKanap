@@ -1,8 +1,7 @@
-basket = JSON.parse(localStorage.getItem("product"))
+let basket = JSON.parse(localStorage.getItem("product"));
 //console.log(basket)
 
-
-for (let i = 0; i < basket.length; i++) {
+for (let i = 0; i < localStorage.length; i++) {
 
     let section = document.getElementById("cart__items")
         
@@ -22,8 +21,8 @@ for (let i = 0; i < basket.length; i++) {
 
         const newImg = document.createElement('img')
         newDivImg.appendChild(newImg)
-        newImg.setAttribute("src", basket[i].imageUrl)
-        newImg.setAttribute("alt", basket[i].altTxt)
+        newImg.setAttribute("src", localStorage[i].imageUrl)
+        newImg.setAttribute("alt", localStorage[i].altTxt)
         //console.log(newImg)
 
         // 2e niveau 2_Container éléments contenus dans le panier
@@ -39,17 +38,17 @@ for (let i = 0; i < basket.length; i++) {
 
             const newH2name = document.createElement('h2')
             newDivItemDescription.appendChild(newH2name)
-            newH2name.innerHTML = basket[i].name
-            //console.log(newH2name)
+            newH2name.innerHTML = localStorage[i].name
+            console.log(newH2name)
 
             const newPcolor = document.createElement('p')
             newDivItemDescription.appendChild(newPcolor)
-            newPcolor.innerHTML = basket[i].colors
+            newPcolor.innerHTML = localStorage[i].colors
             //console.log(newPcolor)
 
             const newPprice = document.createElement('p')
             newDivItemDescription.appendChild(newPprice)
-            newPprice.innerHTML = basket[i].price
+            newPprice.innerHTML = localStorage[i].price
             //console.log(newPcolor)
 
             // 3e niveau 2_Eléments contenus dans le panier - settings
@@ -62,11 +61,11 @@ for (let i = 0; i < basket.length; i++) {
                 const newDivItemQuantity = document.createElement('div')
                 newDivItemSettings.appendChild(newDivItemQuantity)
                 newDivItemQuantity.classList.add("cart__item__content__settings__quantity")
-                newDivItemQuantity.innerHTML = basket[i].quantity
+                newDivItemQuantity.innerHTML = localStorage[i].quantity
 
                 const newPquantity = document.createElement('p')
                 newDivItemQuantity.appendChild(newPquantity)
-                newPquantity.innerHTML = basket[i].quantity
+                newPquantity.innerHTML = localStorage[i].quantity
                 //console.log(newPquantity)
 
                 const newInput = document.createElement('input')
@@ -94,4 +93,6 @@ for (let i = 0; i < basket.length; i++) {
         console.log(section)
 
 };
+
+// TO DO: comment mettre les valeurs du le localstorage dans la boucle JS (tout ce qui est dans la boucle fonctionne, testée avec un autre tableau mais ce sont les valeurs du localstorage que je n'arrive pas à récupérer)
 

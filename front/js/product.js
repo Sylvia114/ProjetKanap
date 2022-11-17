@@ -73,13 +73,16 @@ click.preventDefault();
     let i = 0;
       while (i < localStorage.length){
       i++;   {
-        if(getFromLocal.id == urlId) {
+        if(getFromLocal.id == urlId && getFromLocal.colors == productOptions.colors) {
           let localQuantity = getFromLocal.quantity
           localQuantity = parseInt(localQuantity) + parseInt(productOptions.quantity)
           console.log("ça marche"+ localQuantity)
           //push la quantity seulement
         } else {
-          console.log("ça marche pas vraiment")
+          let getFromLocal = [];
+          getFromLocal.push(productOptions);
+          localStorage.setItem("product", JSON.stringify(productOptions));
+          console.log("ça marche aussi")
         }
       }
   
@@ -87,10 +90,9 @@ click.preventDefault();
   }
   });
 
+  // TO DO pour l'event click:
+  // -ajouter d'autres conditions (si rien n'est selectionné, si la quantité selectionnée est <0 et >100)
+  // -chercher comment faire pour que le produit déjà présent dans le localstorage ne s'efface pas quand je clique sur l'event pour en ajouter un autre
+  // -chercher comment ajouter la quantité au produit déjà présent dans le localstorage (push & changer la quantité)
 
-  //let from = getFromLocal.quantity la quantité dans le local
-  //let inU = productOptions.quantity la quantité sur laquelle on a cliqué
-  //console.log("ça marche"+from+"&"+inU)
 
-  //let colIn = getFromLocal.colors couleur dans le local
-  //let colCh = productOptions.colors couleur sur laquelle on clique
