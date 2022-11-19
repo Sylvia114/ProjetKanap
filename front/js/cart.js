@@ -1,9 +1,29 @@
-let basket = JSON.parse(localStorage.getItem("product"));
-//console.log(basket)
+let basket = localStorage.getItem("product");
 
-for (let i = 0; i < localStorage.length; i++) {
+let productBasket = JSON.parse(basket);
+for (let getBasket of productBasket){
+        let getId = getBasket.id;
+        let getData = getBasket;
+};
 
-    let section = document.getElementById("cart__items")
+fetch (`http://localhost:3000/api/products/${getId}`)
+    .then(function(res){
+        if (res.ok){
+            return response.json();
+        }
+    })
+    .then(function(data) { 
+        products(data, getData)
+    })
+
+    .catch(function(err) {
+        console.log("Erreur")
+    });
+
+
+function products(data, getData){
+
+   let section = document.getElementById("cart__items")
         
 //ajouter un if pour ne pas ajouter pls fois le même article (même id + même couleur),
 
@@ -21,8 +41,8 @@ for (let i = 0; i < localStorage.length; i++) {
 
         const newImg = document.createElement('img')
         newDivImg.appendChild(newImg)
-        newImg.setAttribute("src", localStorage[i].imageUrl)
-        newImg.setAttribute("alt", localStorage[i].altTxt)
+        newImg.setAttribute("src", data.imageUrl)
+        newImg.setAttribute("alt", data.altTxt)
         //console.log(newImg)
 
         // 2e niveau 2_Container éléments contenus dans le panier
@@ -38,17 +58,17 @@ for (let i = 0; i < localStorage.length; i++) {
 
             const newH2name = document.createElement('h2')
             newDivItemDescription.appendChild(newH2name)
-            newH2name.innerHTML = localStorage[i].name
+            newH2name.innerHTML = data.name
             console.log(newH2name)
 
             const newPcolor = document.createElement('p')
             newDivItemDescription.appendChild(newPcolor)
-            newPcolor.innerHTML = localStorage[i].colors
+            newPcolor.innerHTML = getData.colors
             //console.log(newPcolor)
 
             const newPprice = document.createElement('p')
             newDivItemDescription.appendChild(newPprice)
-            newPprice.innerHTML = localStorage[i].price
+            newPprice.innerHTML = data.price
             //console.log(newPcolor)
 
             // 3e niveau 2_Eléments contenus dans le panier - settings
@@ -61,11 +81,11 @@ for (let i = 0; i < localStorage.length; i++) {
                 const newDivItemQuantity = document.createElement('div')
                 newDivItemSettings.appendChild(newDivItemQuantity)
                 newDivItemQuantity.classList.add("cart__item__content__settings__quantity")
-                newDivItemQuantity.innerHTML = localStorage[i].quantity
+                newDivItemQuantity.innerHTML = getData.quantity
 
                 const newPquantity = document.createElement('p')
                 newDivItemQuantity.appendChild(newPquantity)
-                newPquantity.innerHTML = localStorage[i].quantity
+                newPquantity.innerHTML = getData.quantity
                 //console.log(newPquantity)
 
                 const newInput = document.createElement('input')
@@ -96,3 +116,9 @@ for (let i = 0; i < localStorage.length; i++) {
 
 // TO DO: comment mettre les valeurs du le localstorage dans la boucle JS (tout ce qui est dans la boucle fonctionne, testée avec un autre tableau mais ce sont les valeurs du localstorage que je n'arrive pas à récupérer)
 
+const buttonQuantity = document.querySelector(".itemQuantity")
+buttonQuantity.addEventListener('change', function(){
+    const quantity = document.querySelector(".itemQuantity").value
+    console.log("ça marche"+ quantity)
+    
+});

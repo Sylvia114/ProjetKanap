@@ -48,40 +48,32 @@ function products(data){
 
 const button = document.querySelector ("#addToCart")
 button.addEventListener("click", function(click) {
-click.preventDefault();
 
   let productOptions = {
     id : urlId,
     quantity : document.querySelector("#quantity").value,
     colors : document.querySelector("#colors").value,
-    name : document.getElementById("title").textContent,
-    description : document.getElementById("description").textContent,
-    imageUrl : document.querySelector(".item__img img").src,
-    altTxt : document.querySelector(".item__img img").alt,
-    price : document.querySelector(".item__content__titlePrice p span").textContent,
   };
 
-  //stockInLocal = localStorage.setItem("product", JSON.stringify(productOptions))
-  getFromLocal = JSON.parse(localStorage.getItem("product", productOptions))
+let getFromLocal = JSON.parse(localStorage.getItem("product", productOptions));
   
   if (getFromLocal == null){
     let getFromLocal = [];
     getFromLocal.push(productOptions);
-    localStorage.setItem("product", JSON.stringify(productOptions));
-    console.log(getFromLocal)
+    localStorage.setItem("product", JSON.stringify(getFromLocal));
+    //console.log(getFromLocal)
   } else {
     let i = 0;
       while (i < localStorage.length){
       i++;   {
         if(getFromLocal.id == urlId && getFromLocal.colors == productOptions.colors) {
-          let localQuantity = getFromLocal.quantity
-          localQuantity = parseInt(localQuantity) + parseInt(productOptions.quantity)
+          let localQuantity = getFromLocal.quantity          
+          localQuantity = parseInt(localQuantity) + parseInt(productOptions.quantity)          
           console.log("ça marche"+ localQuantity)
           //push la quantity seulement
         } else {
-          let getFromLocal = [];
           getFromLocal.push(productOptions);
-          localStorage.setItem("product", JSON.stringify(productOptions));
+          localStorage.setItem("product", JSON.stringify(getFromLocal));
           console.log("ça marche aussi")
         }
       }
