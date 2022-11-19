@@ -6,10 +6,10 @@ for (let getBasket of productBasket){
         let getData = getBasket;
 };
 
-fetch (`http://localhost:3000/api/products/${getId}`)
+fetch ("http://localhost:3000/api/products/"+getId)
     .then(function(res){
         if (res.ok){
-            return response.json();
+            return res.json();
         }
     })
     .then(function(data) { 
