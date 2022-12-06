@@ -113,9 +113,11 @@ for (let i = 0; i < buttonQuantity.length; i++){
                         location.reload()
                     }              
             }
+            if (quantitySelected == 0){
+                alert("Veuillez sélectionner une quantité supérieure à 0 ou utiliser le bouton supprimer pour supprimer le produit")
+            }
        })
 };
-// et si la quantité modifiée =0?
 
 //Supprimer un produit
 const buttonDelete = document.querySelectorAll(".deleteItem")
