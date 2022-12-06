@@ -6,10 +6,11 @@ var urlId = url.searchParams.get("id")
 console.log(urlId)
 
 fetch("http://localhost:3000/api/products/"+urlId)
-  .then(function (response) {
-    return response.json();
-  })
-
+  .then(function(res) {
+    if (res.ok) {
+    return res.json()
+    }
+})
   .then(function(data) { 
     products(data)
 })
@@ -53,38 +54,53 @@ button.addEventListener("click", function(click) {
     id : urlId,
     quantity : document.querySelector("#quantity").value,
     colors : document.querySelector("#colors").value,
+    name : document.getElementById("title").textContent,
+    imageUrl : document.querySelector(".item__img img").getAttribute("src"),
+    altTxt : document.querySelector(".item__img img").getAttribute("alt"),
+    price : document.getElementById("price").textContent,
   };
 
-let getFromLocal = JSON.parse(localStorage.getItem("product", productOptions));
+let basket = JSON.parse(localStorage.getItem("product", productOptions));
   
-  if (getFromLocal == null){
-    let getFromLocal = [];
-    getFromLocal.push(productOptions);
-    localStorage.setItem("product", JSON.stringify(getFromLocal));
-    //console.log(getFromLocal)
+  if (basket == null){
+    let basket = [];
+    basket.push(productOptions);
+    localStorage.setItem("product", JSON.stringify(basket));
+
   } else {
-    let i = 0;
-      while (i < localStorage.length){
-      i++;   {
-        if(getFromLocal.id == urlId && getFromLocal.colors == productOptions.colors) {
-          let localQuantity = getFromLocal.quantity          
-          localQuantity = parseInt(localQuantity) + parseInt(productOptions.quantity)          
-          console.log("ça marche"+ localQuantity)
-          //push la quantity seulement
-        } else {
-          getFromLocal.push(productOptions);
-          localStorage.setItem("product", JSON.stringify(getFromLocal));
-          console.log("ça marche aussi")
-        }
+    //console.log("je rentre dans mon else");
+
+    let i=0;
+    while (i < basket.length) {   
+
+      if (basket[i].id != productOptions.id){
+        console.log("1e if")
+        basket.push(productOptions);
+        localStorage.setItem("product", JSON.stringify(basket));
+      } 
+      else if (basket[i].id == productOptions.id && basket[i].colors != productOptions.colors){
+        console.log("2e if")
+        basket.push(productOptions);
+        localStorage.setItem("product", JSON.stringify(basket));        
       }
+      else if (basket[i].id == productOptions.id && basket[i].colors == productOptions.colors){            
+        console.log("3e if")
+        let totalQuantity =  ""
+        totalQuantity = parseInt(basket[i].quantity) + parseInt(productOptions.quantity)
+        basket[i].quantity = totalQuantity
+        localStorage.setItem("product", JSON.stringify(basket));
+          //location.reload()                 
+      }   
+
+      i++;} 
+    
+    
+  } 
   
-    }
-  }
   });
 
-  // TO DO pour l'event click:
-  // -ajouter d'autres conditions (si rien n'est selectionné, si la quantité selectionnée est <0 et >100)
-  // -chercher comment faire pour que le produit déjà présent dans le localstorage ne s'efface pas quand je clique sur l'event pour en ajouter un autre
-  // -chercher comment ajouter la quantité au produit déjà présent dans le localstorage (push & changer la quantité)
+  // ATTENTION: Attention à ne pas stocker le prix des articles en local. 
+  //Les données stockées en local ne
+//sont pas sécurisées et l’utilisateur pourrait alors modifier le prix lui-même.
 
-
+  
