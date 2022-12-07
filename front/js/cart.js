@@ -173,77 +173,86 @@ for (let i = 0; i < basket.length; i++){
 let firstName = document.querySelector("#firstName");
 let firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
 firstName.addEventListener("change", function(){
-
-    let RegExpFirstName = new RegExp("^[a-zA-Z -]{2,}$", "g");
-
-    if (RegExpFirstName.test(firstName.value)){
-        firstNameErrorMsg.innerHTML = "Format de prénom valide";
-        return true;
-            
-    }else{
-        firstNameErrorMsg.innerHTML = "Format de prénom invalide"; 
-        return false;       
-    }  
+        checkFirstName(this)
 });
+const checkFirstName = function(firstNameCaptured) {
+    let RegExpFirstName = new RegExp("^[a-zA-Z -]{2,}$", "g")
 
-
+    if (RegExpFirstName.test(firstNameCaptured.value)){
+        firstNameErrorMsg.innerHTML = "Format de prénom valide"; 
+        return true;          
+    }else{
+        firstNameErrorMsg.innerHTML = "Format de prénom invalide";  
+        return false;     
+    }  
+};
 
 //Formulaire - Nom de famille
 let lastName = document.querySelector("#lastName");
 let lastNameErrorMsg = document.querySelector("#lastNameErrorMsg");
 lastName.addEventListener("change", function(){
-
+        checkLastName(this);
+});
+let checkLastName = function(lastNameCaptured){
     let RegExpLastName = new RegExp("^[a-zA-Z -]{2,}$", "g");
 
-    if (RegExpLastName.test(lastName.value)){
+    if (RegExpLastName.test(lastNameCaptured.value)){
         lastNameErrorMsg.innerHTML = "Format de nom valide";
         return true;
     }else{
         lastNameErrorMsg.innerHTML = "Format de nom invalide";
         return false;
     }
-});
+};
+
 
 //Formulaire - Adresse
 let address = document.querySelector("#address");
 let addressErrorMsg = document.querySelector("#addressErrorMsg");
 address.addEventListener("change", function(){
-
+        checkAdress(this);
+});
+const checkAdress = function(addressCaptured){
     let RegExpAddress = new RegExp("^[a-zA-Z0-9 -]+$", "g");
 
-    if (RegExpAddress.test(address.value)){
+    if (RegExpAddress.test(addressCaptured.value)){
         addressErrorMsg.innerHTML = "Format d'adresse valide";
         return true;
     }else{
         addressErrorMsg.innerHTML = "Format d'adresse invalide";
         return false;
     }
-});
+};
 
 //Formulaire - Ville
 let city = document.querySelector("#city");
 let cityErrorMsg = document.querySelector("#cityErrorMsg");
 city.addEventListener("change", function(){
+        checkCity(this);
+});
+const checkCity = function(cityCaptured){
 
     let RegExpCity = new RegExp("^[0-9a-zA-Z -]+$", "g");
 
-    if (RegExpCity.test(city.value)){
+    if (RegExpCity.test(cityCaptured.value)){
         cityErrorMsg.innerHTML = "Format de ville valide";
         return true;
     }else{
         cityErrorMsg.innerHTML = "Format de ville invalide";
         return false;
     }
-});
+};
 
 //Formulaire - Email
 let email = document.querySelector("#email");
 let emailErrorMsg = document.querySelector("#emailErrorMsg");
 email.addEventListener("change", function(){
-
+        checkEmail(this)
+});
+const checkEmail = function(emailCaptured){
     let RegExpEmail = new RegExp ("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$", "g");
  
-    if (RegExpEmail.test(email.value)){
+    if (RegExpEmail.test(emailCaptured.value)){
         emailErrorMsg.innerHTML = "Format de d'email valide";
         return true;
 
@@ -251,11 +260,15 @@ email.addEventListener("change", function(){
         emailErrorMsg.innerHTML = "Format de d'email invalide";
         return false;
     }
-});
+};
 
 // Afficher le numéro de commande
 let buttonOrder = document.querySelector("#order");
 buttonOrder.addEventListener("click", function(e){
+    //e.preventDefault()
+
+    if (checkFirstName(firstName) && checkLastName(lastName) && checkAdress(address) && checkCity(city) && checkEmail(email)){
+        //console.log("c'est vrai")
 
     let firstName = document.querySelector("#firstName").value
     let lastName = document.querySelector("#lastName").value
@@ -292,7 +305,7 @@ fetch("http://localhost:3000/api/products/order", {
         }
       })
      .then(function(confirm){
-       window.location.href = `./confirmation.html?orderId=${confirm.orderId}`
+      window.location.href = `./confirmation.html?orderId=${confirm.orderId}`
      })
 
       .catch(function(err) {
@@ -300,6 +313,12 @@ fetch("http://localhost:3000/api/products/order", {
         alert("Veuillez compléter le formulaire")
     }) 
 
+    } else {
+        //console.log("c'est false")
+        alert("Les données du formulaire sont invalides \n Veuillez entrer des données valides")
+    }
 
 });
+
+
 
