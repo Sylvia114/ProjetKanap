@@ -1,8 +1,25 @@
+// Récupération des données dans le local storage
 let basket = JSON.parse(localStorage.getItem('product'));
 //console.log("je suis ds le panier" +basket);
 
+//Requête vers l'API pour récupérer les infos produits qui ne sont pas en local storage
+fetch("http://localhost:3000/api/products")
+    .then(function(res) {
+    if (res.ok) {
+    return res.json()
+    }
+})
+    .then(function(data) { 
+    getPrice(data)
+    getTotal(data)
+        
+})
+    .catch(function(err) {
+    console.log("Erreur")
+})
+ 
+//Boucle qui parcours le local storage et affiche en front les infos des produits
 for (let i = 0; i < basket.length; i++) {
-
    let section = document.getElementById("cart__items")        
 
     // 1e niveau Container article
@@ -44,10 +61,8 @@ for (let i = 0; i < basket.length; i++) {
             newPcolor.innerHTML = basket[i].colors
             //console.log(newPcolor)
 
-            const newPprice = document.createElement('p')
-            newDivItemDescription.appendChild(newPprice)
-            newPprice.innerHTML = basket[i].price+" €"
-            //console.log(newPcolor)
+            // la fonction pour récupérer le prix est séparé pour qu'il ne soit pas stocké en local storage
+            // Voir function products(data) après cette boucle
 
             // 3e niveau 2_Eléments contenus dans le panier - settings
             const newDivItemSettings = document.createElement('div')
@@ -91,6 +106,31 @@ for (let i = 0; i < basket.length; i++) {
   
 };
 
+// Fonction qui récupére le prix dans l'API et l'affiche en front
+// 3e niveau 1_Eléments contenus dans le panier - description prix
+const contentItem = document.querySelectorAll(".cart__item__content__description")
+console.log(contentItem)
+
+function getPrice(data){
+            
+        for (let i = 0; i < contentItem.length; i++) { 
+            
+            let cartArticle = contentItem[i].closest('article')
+            //console.log(cartArticle)
+            let dataId = cartArticle.dataset.id
+            //console.log("je suis dans contentItem "+dataId) 
+
+            if (dataId = data[i]._id){
+                //console.log(" celui de l'API " + dataId + " celui du LS "+ data[i]._id)
+                const newPprice = document.createElement('p')
+                contentItem[i].appendChild(newPprice)
+                newPprice.innerHTML = data[i].price+" €"
+                //console.log(newPprice)
+                //console.log(contentItem)                                
+            }   
+                      
+}
+};
 
 //Changer la quantité 
 let buttonQuantity = document.querySelectorAll(".itemQuantity")
@@ -158,12 +198,15 @@ for (let i = 0; i < basket.length; i++){
 
 //Afficher le prix total
 let sumPrice = 0
+function getTotal(data){
 for (let i = 0; i < basket.length; i++){
     let basketQuantity = parseInt(basket[i].quantity)
-    let basketPrice = parseInt(basket[i].price)
-    sumPrice += (basketQuantity * basketPrice)
+    let dataPrice = data[i].price
+    //console.log(dataPrice)
+    sumPrice += (basketQuantity * dataPrice)
     let displayPrice = document.getElementById("totalPrice")
     displayPrice.innerHTML = sumPrice
+    }
 };
 
 
@@ -204,7 +247,6 @@ let checkLastName = function(lastNameCaptured){
         return false;
     }
 };
-
 
 //Formulaire - Adresse
 let address = document.querySelector("#address");
@@ -310,7 +352,6 @@ fetch("http://localhost:3000/api/products/order", {
 
       .catch(function(err) {
         console.log("Erreur")
-        alert("Veuillez compléter le formulaire")
     }) 
 
     } else {

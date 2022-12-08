@@ -57,7 +57,7 @@ button.addEventListener("click", function(click) {
     name : document.getElementById("title").textContent,
     imageUrl : document.querySelector(".item__img img").getAttribute("src"),
     altTxt : document.querySelector(".item__img img").getAttribute("alt"),
-    price : document.getElementById("price").textContent,
+    //price : document.getElementById("price").textContent,
   };
 
 let basket = JSON.parse(localStorage.getItem("product", productOptions));
@@ -81,7 +81,7 @@ let basket = JSON.parse(localStorage.getItem("product", productOptions));
       else if (basket[i].id == productOptions.id && basket[i].colors != productOptions.colors){
         console.log("2e if")
         basket.push(productOptions);
-        localStorage.setItem("product", JSON.stringify(basket));        
+        localStorage.setItem("product", JSON.stringify(basket));      
       }
       else if (basket[i].id == productOptions.id && basket[i].colors == productOptions.colors){            
         console.log("3e if")
@@ -89,7 +89,7 @@ let basket = JSON.parse(localStorage.getItem("product", productOptions));
         totalQuantity = parseInt(basket[i].quantity) + parseInt(productOptions.quantity)
         basket[i].quantity = totalQuantity
         localStorage.setItem("product", JSON.stringify(basket));
-          //location.reload()                 
+          //location.reload()                
       }   
 
       i++;} 
