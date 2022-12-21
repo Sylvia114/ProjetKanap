@@ -3,7 +3,7 @@
 var getUrl = window.location.href
 var url = new URL(getUrl)
 var urlId = url.searchParams.get("id")
-console.log(urlId)
+//console.log(urlId)
 
 fetch("http://localhost:3000/api/products/"+urlId)
   .then(function(res) {
@@ -46,61 +46,51 @@ function products(data){
 }; 
 
 // Ajouter des produits dans le panier
+const basketButton = document.querySelector('#addToCart');
+basketButton.addEventListener('click', function addCart() {
 
-const button = document.querySelector ("#addToCart")
-button.addEventListener("click", function(click) {
+    let mykanap = {
+      id : urlId,
+      quantity : document.querySelector("#quantity").value,
+      color : document.querySelector("#colors").value,
+      name : document.getElementById("title").textContent,
+      imageUrl : document.querySelector(".item__img img").getAttribute("src"),
+      altTxt : document.querySelector(".item__img img").getAttribute("alt"),
+    };
 
-  let productOptions = {
-    id : urlId,
-    quantity : document.querySelector("#quantity").value,
-    colors : document.querySelector("#colors").value,
-    name : document.getElementById("title").textContent,
-    imageUrl : document.querySelector(".item__img img").getAttribute("src"),
-    altTxt : document.querySelector(".item__img img").getAttribute("alt"),
-    //price : document.getElementById("price").textContent,
-  };
+    let basketSaved = JSON.parse(localStorage.getItem('product'));
 
-let basket = JSON.parse(localStorage.getItem("product", productOptions));
-  
-  if (basket == null){
-    let basket = [];
-    basket.push(productOptions);
-    localStorage.setItem("product", JSON.stringify(basket));
+    if (mykanap.color != "" && mykanap.quantity > 0 && mykanap.quantity <= 100){
 
-  } else {
-    //console.log("je rentre dans mon else");
+        if (basketSaved) {
 
-    let i=0;
-    while (i < basket.length) {   
+            const idColorSaved = basketSaved.map((article) => article.id + article.color);
+              
+                let foundProductIndex = idColorSaved.findIndex(element => element == urlId + mykanap.color);
 
-      if (basket[i].id != productOptions.id){
-        console.log("1e if")
-        basket.push(productOptions);
-        localStorage.setItem("product", JSON.stringify(basket));
-      } 
-      else if (basket[i].id == productOptions.id && basket[i].colors != productOptions.colors){
-        console.log("2e if")
-        basket.push(productOptions);
-        localStorage.setItem("product", JSON.stringify(basket));      
-      }
-      else if (basket[i].id == productOptions.id && basket[i].colors == productOptions.colors){            
-        console.log("3e if")
-        let totalQuantity =  ""
-        totalQuantity = parseInt(basket[i].quantity) + parseInt(productOptions.quantity)
-        basket[i].quantity = totalQuantity
-        localStorage.setItem("product", JSON.stringify(basket));
-          //location.reload()                
-      }   
+                if (foundProductIndex >= 0) {
+                    let addquantity = parseInt(basketSaved[foundProductIndex].quantity)+ parseInt(mykanap.quantity);
+                    basketSaved[foundProductIndex].quantity = JSON.stringify(addquantity);
+                    localStorage.setItem('product', JSON.stringify(basketSaved));
+                }
+                else {
+                    basketSaved.push(mykanap);
+                    localStorage.setItem('product', JSON.stringify(basketSaved));
+                }
+        } 
+        else {
+            basketSaved = [];
+            basketSaved.push(mykanap);
+            localStorage.setItem('product',JSON.stringify(basketSaved));
+        }
+    }
+    else {
+        alert("Veuillez choisir une couleur et une quantité entre 0 et 100");
+    }
+})
 
-      i++;} 
-    
-    
-  } 
-  
-  });
 
-  // ATTENTION: Attention à ne pas stocker le prix des articles en local. 
-  //Les données stockées en local ne
-//sont pas sécurisées et l’utilisateur pourrait alors modifier le prix lui-même.
+
+
 
   

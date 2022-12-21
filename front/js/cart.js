@@ -27,7 +27,7 @@ for (let i = 0; i < basket.length; i++) {
     section.appendChild(article)
     article.classList.add("cart__item")
     article.setAttribute("data-id", basket[i].id)
-    article.setAttribute("data-color", basket[i].colors)
+    article.setAttribute("data-color", basket[i].color)
 
       // 2e niveau 1_Image
         const newDivImg = document.createElement('div')
@@ -58,7 +58,7 @@ for (let i = 0; i < basket.length; i++) {
 
             const newPcolor = document.createElement('p')
             newDivItemDescription.appendChild(newPcolor)
-            newPcolor.innerHTML = basket[i].colors
+            newPcolor.innerHTML = basket[i].color
             //console.log(newPcolor)
 
             // la fonction pour récupérer le prix est séparé pour qu'il ne soit pas stocké en local storage
@@ -109,10 +109,9 @@ for (let i = 0; i < basket.length; i++) {
 // Fonction qui récupére le prix dans l'API et l'affiche en front
 // 3e niveau 1_Eléments contenus dans le panier - description prix
 const contentItem = document.querySelectorAll(".cart__item__content__description")
-console.log(contentItem)
+//console.log(contentItem)
 
-function getPrice(data){
-            
+function getPrice(data){            
         for (let i = 0; i < contentItem.length; i++) { 
             
             let cartArticle = contentItem[i].closest('article')
@@ -146,11 +145,11 @@ for (let i = 0; i < buttonQuantity.length; i++){
 
             for (let i = 0; i < basket.length; i++){
 
-                    if (dataId == basket[i].id && dataColor == basket[i].colors){
+                    if (dataId == basket[i].id && dataColor == basket[i].color){
                         console.log("je suis ds le if")
                         basket[i].quantity = quantitySelected
                         localStorage.setItem("product", JSON.stringify(basket))
-                        location.reload()
+                        //location.reload()
                     }              
             }
             if (quantitySelected == 0){
@@ -172,7 +171,7 @@ for (let i = 0; i < buttonDelete.length; i++){
 
         for (let i = 0; i < basket.length; i++){
             let index = basket.indexOf(basket[i])
-            if (dataId == basket[i].id && dataColor == basket[i].colors){
+            if (dataId == basket[i].id && dataColor == basket[i].color){
                 basket.splice(index, 1)
                 cartArticle.remove()
                 localStorage.setItem("product", JSON.stringify(basket))
@@ -307,7 +306,7 @@ const checkEmail = function(emailCaptured){
 // Afficher le numéro de commande
 let buttonOrder = document.querySelector("#order");
 buttonOrder.addEventListener("click", function(e){
-    //e.preventDefault()
+    e.preventDefault()
 
     if (checkFirstName(firstName) && checkLastName(lastName) && checkAdress(address) && checkCity(city) && checkEmail(email)){
         //console.log("c'est vrai")
